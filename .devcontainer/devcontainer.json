@@ -1,5 +1,5 @@
 {
-  "name": "katallaxie/template-go",
+  "name": "katallaxie/g",
   "build": {
       "dockerfile": "Dockerfile",
       // Update 'VARIANT' to pick an Ubuntu version: jammy / ubuntu-22.04, focal / ubuntu-20.04, bionic /ubuntu-18.04
@@ -21,7 +21,7 @@
             "GitHub.vscode-github-actions",
             "golang.go",
             "ms-vscode.cpptools",
-            "ms-vscode.makefile-tools" 
+            "ms-vscode.makefile-tools"
         ]
     }
   }

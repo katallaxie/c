@@ -1,4 +1,4 @@
-module github.com/katallaxie/template-go
+module github.com/katallaxie/g
 
 go 1.20
 
