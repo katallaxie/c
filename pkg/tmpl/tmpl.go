@@ -1,6 +1,7 @@
 package tmpl
 
 import (
+	"bytes"
 	"io"
 	"strings"
 	"text/template"
@@ -14,10 +15,22 @@ func Parse(src io.Reader, dst io.Writer, data interface{}) error {
 		return err
 	}
 
+	var out bytes.Buffer
 	tmpl, err := template.New("tmpl").Funcs(tmplFuncs).Parse(buf.String())
 	if err != nil {
 		return err
 	}
 
-	return tmpl.Execute(dst, data)
+	err = tmpl.Execute(&out, data)
+	if err != nil {
+		return err
+	}
+
+	b := bytes.ReplaceAll(out.Bytes(), []byte("<no value>"), []byte(""))
+	_, err = io.Copy(dst, bytes.NewReader(b))
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
