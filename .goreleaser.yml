@@ -7,7 +7,7 @@ before:
 builds:
    -
     id: main
-    binary: g-{{.Os}}-{{ .Arch }}
+    binary: '{{ .ProjectName }}'
     main: main.go
     goos:
       - windows
@@ -24,8 +24,7 @@ builds:
     env:
       - CGO_ENABLED=0
     ldflags:
-        - -s -w
-    no_unique_dist_dir: true
+      - -s -w
 
 archives:
   -
