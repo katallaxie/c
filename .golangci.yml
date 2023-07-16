@@ -109,6 +109,9 @@ linters-settings:
     severity: warning
     confidence: 0.8
 
+  gosec:
+    excludes:
+      - G204 # Subprocess launched with variable
 
 linters:
   enable:
