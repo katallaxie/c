@@ -34,6 +34,23 @@ archives:
       - main
     name_template: "g_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
 
+brews:
+  -
+    name: g
+    ids:
+      - main
+    repository: 
+      owner: katallaxie
+      name: g-tap
+    folder: Formula
+    goarm: "7"
+    homepage: https://katallaxie.github.io/g/
+    dependencies:
+      - name: go
+        type: optional
+    install: |-
+      bin.install "g"
+
 gomod:
   proxy: true
 
