@@ -41,7 +41,7 @@ brews:
       - main
     repository: 
       owner: katallaxie
-      name: g-tap
+      name: homebrew-g-tap
     folder: Formula
     goarm: "7"
     homepage: https://katallaxie.github.io/g/
