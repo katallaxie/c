@@ -25,6 +25,11 @@ func TestParse(t *testing.T) {
 			in:   strings.NewReader("{{ OS }}"),
 			out:  runtime.GOOS,
 		},
+		{
+			name: "replace no values in data",
+			in:   strings.NewReader("{{ .NOVALUE }}"),
+			out:  "",
+		},
 	}
 
 	for _, tt := range tests {
