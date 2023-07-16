@@ -3,7 +3,7 @@ project_name: g
 builds:
    -
     id: main
-    binary: main-{{.Os}}-{{ .Arch }}
+    binary: g-{{.Os}}-{{ .Arch }}
     main: main.go
     goos:
       - windows
@@ -28,19 +28,7 @@ archives:
     id: main
     builds:
       - main
-    name_template: "main_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
-
-dockers:
-  -
-    dockerfile: Dockerfile
-    goos: linux
-    goarch: amd64
-    ids:
-      - main
-    image_templates:
-      - "ghcr.io/katallaxie/{{.ProjectName}}:latest"
-      - "ghcr.io/katallaxie/{{.ProjectName}}:{{ .Tag }}"
-      - "ghcr.io/katallaxie/{{.ProjectName}}"
+    name_template: "g_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
 
 gomod:
   proxy: true
