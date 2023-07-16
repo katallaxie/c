@@ -1,5 +1,9 @@
 project_name: g
 
+before:
+  hooks:
+    - go mod tidy
+
 builds:
    -
     id: main
@@ -34,7 +38,16 @@ gomod:
   proxy: true
 
 release:
-  draft: true
+  ids:
+    - main
+  header: |
+    ## {{.Version}} Release ({{ .Date }})
+
+    Welcome to this new release :rocket:!
+  footer: |
+    ## Thanks!
+
+    Those were the changes on {{ .Tag }}!
 
 snapshot:
   name_template: "{{.Tag}}"
