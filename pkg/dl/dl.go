@@ -3,8 +3,7 @@ package dl
 import (
 	"archive/zip"
 	"bytes"
-	"io/ioutil"
-	"log"
+	"io"
 	"net/http"
 )
 
@@ -16,7 +15,7 @@ func Download(url string) error {
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil
 	}
@@ -24,7 +23,7 @@ func Download(url string) error {
 
 	zipReader, err := zip.NewReader(bytes.NewReader(body), int64(len(body)))
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	for _, zipFile := range zipReader.File {
@@ -45,5 +44,5 @@ func readZipFile(zf *zip.File) ([]byte, error) {
 		return nil, err
 	}
 	defer f.Close()
-	return ioutil.ReadAll(f)
+	return io.ReadAll(f)
 }
