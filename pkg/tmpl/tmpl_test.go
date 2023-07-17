@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/katallaxie/g/pkg/tmpl"
+
 	"github.com/stretchr/testify/assert"
 )
 
