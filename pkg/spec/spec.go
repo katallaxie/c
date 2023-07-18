@@ -1,10 +1,17 @@
 package spec
 
-import "sync"
+import (
+	"sync"
+
+	"github.com/pkg/errors"
+	"gopkg.in/yaml.v3"
+)
 
 const (
 	// DefaultVersion is the default version of the specification.
 	DefaultVersion = 1
+	// DefaultFilename is the default filename of the specification.
+	DefaultFilename = ".g.yml"
 )
 
 // Spec is the specification for the scaffolding tool.
@@ -25,6 +32,25 @@ type Template struct {
 	Source string `validate:"required" yaml:"source"`
 	// Destination is the destination of the template.
 	Destination string `validate:"required" yaml:"destination"`
+}
+
+// UnmarshalYAML implements the yaml.Unmarshaler interface.
+func (s *Spec) UnmarshalYAML(data []byte) error {
+	ss := struct {
+		Version   int        `yaml:"version"`
+		Name      string     `yaml:"name"`
+		Templates []Template `yaml:"templates"`
+	}{}
+
+	if err := yaml.Unmarshal(data, &s); err != nil {
+		return errors.WithStack(err)
+	}
+
+	s.Version = ss.Version
+	s.Name = ss.Name
+	s.Templates = ss.Templates
+
+	return nil
 }
 
 // Default returns the default specification.

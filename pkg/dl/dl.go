@@ -5,10 +5,12 @@ import (
 	"bytes"
 	"io"
 	"net/http"
+
+	"github.com/katallaxie/g/pkg/spec"
 )
 
-// Download ...
-func Download(url string) error {
+// Extract ...
+func Extract(url string) error {
 	resp, err := http.Get(url)
 	if err != nil {
 		return err
@@ -26,13 +28,21 @@ func Download(url string) error {
 		return err
 	}
 
+	s := spec.Default()
 	for _, zipFile := range zipReader.File {
-		unzippedFileBytes, err := readZipFile(zipFile)
+		if zipFile.Name != spec.DefaultFilename {
+			continue
+		}
+
+		bb, err := readZipFile(zipFile)
 		if err != nil {
 			return err
 		}
 
-		_ = unzippedFileBytes // this is unzipped file bytes
+		err = s.UnmarshalYAML(bb)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
