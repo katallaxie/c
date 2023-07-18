@@ -8,9 +8,7 @@ import (
 	"golang.org/x/exp/maps"
 )
 
-var (
-	tmplFuncs template.FuncMap
-)
+var tmplFuncs template.FuncMap
 
 func init() {
 	tmplFuncs = make(template.FuncMap)

@@ -101,8 +101,7 @@ type ExecuteRequest struct {
 }
 
 // ExecuteResponse ...
-type ExecuteResponse struct {
-}
+type ExecuteResponse struct{}
 
 func pluginFactory(ctx context.Context, meta *Meta) Factory {
 	return func() (Plugin, error) {

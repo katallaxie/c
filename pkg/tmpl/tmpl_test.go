@@ -15,7 +15,7 @@ import (
 func TestParse(t *testing.T) {
 	t.Parallel()
 
-	var tests = []struct {
+	tests := []struct {
 		name string
 		in   io.Reader
 		out  string
