@@ -19,7 +19,7 @@ func Extract(url string) error {
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil
+		return err
 	}
 	defer resp.Body.Close()
 
