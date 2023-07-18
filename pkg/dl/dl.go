@@ -12,12 +12,10 @@ import (
 
 // Extract ...
 func Extract(ctx context.Context, url string) error {
-	req, err := http.NewRequest("GET", url, nil)
+	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	if err != nil {
 		return err
 	}
-
-	req = req.WithContext(ctx)
 
 	client := http.DefaultClient
 	res, err := client.Do(req)
