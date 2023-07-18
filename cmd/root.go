@@ -14,8 +14,11 @@ import (
 var config = cfg.Default()
 
 func init() {
+	RootCmd.AddCommand(InitCmd)
+
 	RootCmd.PersistentFlags().BoolVarP(&config.Verbose, "verbose", "v", config.Verbose, "verbose output")
 	RootCmd.PersistentFlags().StringVarP(&config.Template, "template", "t", config.Template, "template to use")
+	RootCmd.PersistentFlags().BoolVarP(&config.Force, "force", "f", config.Force, "force overwrite")
 
 	RootCmd.SilenceErrors = true
 	RootCmd.SilenceUsage = true
@@ -54,6 +57,5 @@ func preRunRoot(ctx context.Context, args ...string) error {
 }
 
 func runRoot(ctx context.Context, args ...string) error {
-
 	return nil
 }

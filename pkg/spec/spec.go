@@ -1,8 +1,12 @@
 package spec
 
 import (
+	"fmt"
+	"os"
+	"path/filepath"
 	"sync"
 
+	"github.com/katallaxie/pkg/utils/files"
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
 )
@@ -58,4 +62,30 @@ func Default() *Spec {
 	return &Spec{
 		Version: DefaultVersion,
 	}
+}
+
+// Write writes the specification to the given file.
+func Write(s *Spec, file string, force bool) error {
+	b, err := yaml.Marshal(s)
+	if err != nil {
+		return err
+	}
+
+	ok, _ := files.FileExists(filepath.Clean(file))
+	if ok && !force {
+		return fmt.Errorf("%s already exists, use --force to overwrite", file)
+	}
+
+	f, err := os.Create(filepath.Clean(file))
+	if err != nil {
+		return err
+	}
+	defer func() { _ = f.Close() }()
+
+	_, err = f.Write(b)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
