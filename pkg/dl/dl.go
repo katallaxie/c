@@ -3,6 +3,7 @@ package dl
 import (
 	"archive/zip"
 	"bytes"
+	"context"
 	"io"
 	"net/http"
 
@@ -10,18 +11,25 @@ import (
 )
 
 // Extract ...
-func Extract(url string) error {
-	resp, err := http.Get(url)
+func Extract(ctx context.Context, url string) error {
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
 
-	body, err := io.ReadAll(resp.Body)
+	req = req.WithContext(ctx)
+
+	client := http.DefaultClient
+	res, err := client.Do(req)
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
+
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
 
 	zipReader, err := zip.NewReader(bytes.NewReader(body), int64(len(body)))
 	if err != nil {
