@@ -7,6 +7,8 @@ import (
 	"sync"
 
 	"github.com/katallaxie/pkg/utils/files"
+
+	"github.com/go-playground/validator/v10"
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
 )
@@ -18,12 +20,16 @@ const (
 	DefaultFilename = ".g.yml"
 )
 
+var validate = validator.New()
+
 // Spec is the specification for the scaffolding tool.
 type Spec struct {
 	// Version is the version of the specification.
 	Version int `validate:"required" yaml:"version"`
-	// Name is the name of the project.
+	// Name is the name of the template.
 	Name string `validate:"required" yaml:"name"`
+	// Description is the description of the template.
+	Description string `yaml:"description"`
 	// Templates is the list of templates to use.
 	Templates []Template `validate:"required" yaml:"templates"`
 
@@ -41,9 +47,10 @@ type Template struct {
 // UnmarshalYAML implements the yaml.Unmarshaler interface.
 func (s *Spec) UnmarshalYAML(data []byte) error {
 	ss := struct {
-		Version   int        `yaml:"version"`
-		Name      string     `yaml:"name"`
-		Templates []Template `yaml:"templates"`
+		Version     int        `yaml:"version"`
+		Name        string     `yaml:"name"`
+		Description string     `yaml:"description"`
+		Templates   []Template `yaml:"templates"`
 	}{}
 
 	if err := yaml.Unmarshal(data, &s); err != nil {
@@ -52,9 +59,15 @@ func (s *Spec) UnmarshalYAML(data []byte) error {
 
 	s.Version = ss.Version
 	s.Name = ss.Name
+	s.Description = ss.Description
 	s.Templates = ss.Templates
 
-	return nil
+	err := validate.Struct(s)
+	if err != nil {
+		return err
+	}
+
+	return err
 }
 
 // Default returns the default specification.
