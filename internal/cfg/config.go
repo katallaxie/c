@@ -10,6 +10,8 @@ type Config struct {
 	Template string
 	// Force forces the creation of the file.
 	Force bool
+	// Prefix is the prefix to use.
+	Prefix string
 }
 
 // Cwd is the current working directory.

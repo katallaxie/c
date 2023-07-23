@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/katallaxie/g/internal/cfg"
+	"github.com/katallaxie/g/pkg/dl"
 
 	"github.com/katallaxie/pkg/env"
 	"github.com/spf13/cobra"
@@ -19,6 +20,8 @@ func init() {
 	RootCmd.PersistentFlags().BoolVarP(&config.Verbose, "verbose", "v", config.Verbose, "verbose output")
 	RootCmd.PersistentFlags().StringVarP(&config.Template, "template", "t", config.Template, "template to use")
 	RootCmd.PersistentFlags().BoolVarP(&config.Force, "force", "f", config.Force, "force overwrite")
+
+	RootCmd.Flags().StringVarP(&config.Prefix, "prefix", "p", config.Prefix, "prefix to use")
 
 	RootCmd.SilenceErrors = true
 	RootCmd.SilenceUsage = true
@@ -49,6 +52,11 @@ func preRunRoot(ctx context.Context, args ...string) error {
 
 	checker := env.NewChecker()
 	err = checker.Check(ctx, env.IsDirEmpty(p))
+	if err != nil {
+		return err
+	}
+
+	err = dl.Extract(ctx, config.Prefix, config.Template)
 	if err != nil {
 		return err
 	}

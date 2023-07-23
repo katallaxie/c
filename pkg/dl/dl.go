@@ -4,14 +4,17 @@ import (
 	"archive/zip"
 	"bytes"
 	"context"
+	"fmt"
 	"io"
 	"net/http"
+	"os"
+	"strings"
 
 	"github.com/katallaxie/g/pkg/spec"
 )
 
 // Extract ...
-func Extract(ctx context.Context, url string) error {
+func Extract(ctx context.Context, prefix string, url string) error {
 	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	if err != nil {
 		return err
@@ -36,7 +39,10 @@ func Extract(ctx context.Context, url string) error {
 
 	s := spec.Default()
 	for _, zipFile := range zipReader.File {
-		if zipFile.Name != spec.DefaultFilename {
+		parts := strings.Split(zipFile.Name, string(os.PathSeparator))
+		name := strings.Join(parts[1:], string(os.PathSeparator))
+
+		if name != spec.DefaultFilename {
 			continue
 		}
 
@@ -50,6 +56,8 @@ func Extract(ctx context.Context, url string) error {
 			return err
 		}
 	}
+
+	fmt.Println(s)
 
 	return nil
 }
