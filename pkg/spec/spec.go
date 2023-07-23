@@ -31,7 +31,7 @@ type Spec struct {
 	// Description is the description of the template.
 	Description string `yaml:"description"`
 	// Templates is the list of templates to use.
-	Templates []Template `validate:"required" yaml:"templates"`
+	Templates []Template `yaml:"templates"`
 
 	sync.Mutex `yaml:"-"`
 }
@@ -53,7 +53,7 @@ func (s *Spec) UnmarshalYAML(data []byte) error {
 		Templates   []Template `yaml:"templates"`
 	}{}
 
-	if err := yaml.Unmarshal(data, &s); err != nil {
+	if err := yaml.Unmarshal(data, &ss); err != nil {
 		return errors.WithStack(err)
 	}
 
