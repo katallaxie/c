@@ -32,6 +32,12 @@ type Spec struct {
 	Description string `yaml:"description"`
 	// Templates is the list of templates to use.
 	Templates []Template `yaml:"templates"`
+	// PreRun is the pre hook to run.
+	PreRun []string `yaml:"preRun"`
+	// PostRun is the post hook to run.
+	PostRun []string `yaml:"postRun"`
+	// Vars is the list of variables to use.
+	Vars map[string]interface{} `yaml:"vars"`
 
 	sync.Mutex `yaml:"-"`
 }
@@ -44,6 +50,16 @@ type Template struct {
 	Destination string `validate:"required" yaml:"destination"`
 }
 
+// TemplateMap is a map of templates.
+func (s *Spec) TemplateMap() map[string]string {
+	m := make(map[string]string)
+	for _, t := range s.Templates {
+		m[t.Source] = t.Destination
+	}
+
+	return m
+}
+
 // UnmarshalYAML implements the yaml.Unmarshaler interface.
 func (s *Spec) UnmarshalYAML(data []byte) error {
 	ss := struct {
@@ -51,6 +67,8 @@ func (s *Spec) UnmarshalYAML(data []byte) error {
 		Name        string     `yaml:"name"`
 		Description string     `yaml:"description"`
 		Templates   []Template `yaml:"templates"`
+		PreRun      []string   `yaml:"preRun"`
+		PostRun     []string   `yaml:"postRun"`
 	}{}
 
 	if err := yaml.Unmarshal(data, &ss); err != nil {
@@ -61,6 +79,8 @@ func (s *Spec) UnmarshalYAML(data []byte) error {
 	s.Name = ss.Name
 	s.Description = ss.Description
 	s.Templates = ss.Templates
+	s.PreRun = ss.PreRun
+	s.PostRun = ss.PostRun
 
 	err := validate.Struct(s)
 	if err != nil {

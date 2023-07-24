@@ -4,7 +4,6 @@ import (
 	"archive/zip"
 	"bytes"
 	"context"
-	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -57,7 +56,14 @@ func Extract(ctx context.Context, prefix string, url string) error {
 		}
 	}
 
-	fmt.Println(s)
+	for _, zipFile := range zipReader.File {
+		parts := strings.Split(zipFile.Name, string(os.PathSeparator))
+		name := strings.Join(parts[1:], string(os.PathSeparator))
+
+		if len(s.Templates) > 0 && s.TemplateMap()[name] == "" {
+			continue
+		}
+	}
 
 	return nil
 }
