@@ -9,7 +9,7 @@ require (
 	github.com/golangci/golangci-lint v1.53.3
 	github.com/hashicorp/go-hclog v1.5.0
 	github.com/hashicorp/go-plugin v1.4.10
-	github.com/katallaxie/pkg v0.5.7
+	github.com/katallaxie/pkg v0.5.8
 	github.com/katallaxie/run v0.1.0-beta.3
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/cobra v1.7.0
