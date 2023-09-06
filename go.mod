@@ -8,7 +8,7 @@ require (
 	github.com/golang/mock v1.7.0-rc.1
 	github.com/golangci/golangci-lint v1.54.2
 	github.com/hashicorp/go-hclog v1.5.0
-	github.com/hashicorp/go-plugin v1.4.10
+	github.com/hashicorp/go-plugin v1.5.1
 	github.com/katallaxie/pkg v0.5.8
 	github.com/katallaxie/run v0.1.0-beta.3
 	github.com/pkg/errors v0.9.1
