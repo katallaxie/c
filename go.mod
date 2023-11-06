@@ -12,7 +12,7 @@ require (
 	github.com/katallaxie/pkg v0.5.10
 	github.com/katallaxie/run v0.1.0-beta.3
 	github.com/pkg/errors v0.9.1
-	github.com/spf13/cobra v1.7.0
+	github.com/spf13/cobra v1.8.0
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/exp v0.0.0-20230510235704-dd950f8aeaea
 	google.golang.org/grpc v1.58.3
