@@ -7,7 +7,7 @@ require (
 	github.com/go-task/slim-sprig v2.20.0+incompatible
 	github.com/golang/mock v1.7.0-rc.1
 	github.com/golangci/golangci-lint v1.55.0
-	github.com/hashicorp/go-hclog v1.5.0
+	github.com/hashicorp/go-hclog v1.6.2
 	github.com/hashicorp/go-plugin v1.5.2
 	github.com/katallaxie/pkg v0.5.10
 	github.com/katallaxie/run v0.1.0-beta.3
